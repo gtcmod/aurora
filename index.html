@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Download do Aurora Store Nightly</title>
+  <title>Download do Aurora Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       display: flex;
@@ -9,9 +11,15 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      font-family: 'Roboto', sans-serif;
     }
     .container {
       text-align: center;
+      padding: 20px;
+    }
+    a {
+      margin-bottom: 10px;
+      display: block;
     }
   </style>
 </head>
@@ -32,7 +40,7 @@
         date.setDate(today.getDate() - i);
         var formattedDate = date.toISOString().split('T')[0];
         var downloadLink = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + formattedDate + '.apk';
-        linksHTML += '<a href="' + downloadLink + '" download="AuroraStore-nightly-signed-' + formattedDate + '.apk">Baixar do dia ' + formattedDate + '</a><br>';
+        linksHTML += '<a href="' + downloadLink + '" download="AuroraStore-nightly-signed-' + formattedDate + '.apk">Baixar do dia ' + formattedDate + '</a>';
       }
 
       linksDiv.innerHTML = linksHTML;
