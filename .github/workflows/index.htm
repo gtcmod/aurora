@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Download do Aurora Store</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="links"></div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      var today = new Date();
+      var linksDiv = document.getElementById('links');
+      var linksHTML = '';
+
+      for (var i = 0; i < 15; i++) {
+        var date = new Date();
+        date.setDate(today.getDate() - i);
+        var formattedDate = date.toISOString().split('T')[0];
+        var downloadLink = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + formattedDate + '.apk';
+        linksHTML += '<a href="' + downloadLink + '" download="AuroraStore-nightly-signed-' + formattedDate + '.apk">Baixar do dia ' + formattedDate + '</a><br>';
+      }
+
+      linksDiv.innerHTML = linksHTML;
+    };
+  </script>
+
+</body>
+</html>
