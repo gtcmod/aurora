@@ -17,15 +17,21 @@
       text-align: center;
       padding: 20px;
     }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
     a {
       margin-bottom: 10px;
       display: block;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
+    <h1>Aurora Store Nightly Builds</h1>
     <div id="links"></div>
   </div>
 
@@ -34,6 +40,13 @@
       var today = new Date();
       var linksDiv = document.getElementById('links');
       var linksHTML = '';
+
+      var currentHour = today.getHours();
+      var isAfterFivePM = currentHour >= 20;
+
+      if (isAfterFivePM) {
+        today.setDate(today.getDate() + 1); // Avança para o próximo dia
+      }
 
       for (var i = 0; i < 15; i++) {
         var date = new Date();
