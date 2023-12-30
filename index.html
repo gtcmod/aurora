@@ -52,7 +52,7 @@
       // Define a hora como 20:00 para hoje
       hoje.setHours(20, 0, 0, 0);
 
-      for (var i = 0; i < 15; i++) {
+      for (var i = 0; i < 12; i++) {
         var data = new Date(hoje);
         data.setDate(hoje.getDate() - i);
         var dataFormatada = data.toISOString().split('T')[0];
