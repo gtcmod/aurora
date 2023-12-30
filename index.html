@@ -31,32 +31,36 @@
 <body>
 
   <div class="container">
-    <h1>Aurora Store Nightly Builds</h1>
+    <h1>Baixar Aurora Store Nightly Builds</h1>
     <div id="links"></div>
   </div>
 
   <script>
     window.onload = function () {
-      var today = new Date();
-      var linksDiv = document.getElementById('links');
-      var linksHTML = '';
+      var hoje = new Date();
+      var divLinks = document.getElementById('links');
+      var htmlLinks = '';
 
-      var currentHour = today.getHours();
-      var isAfterTwentyHours = currentHour >= 20;
+      var horaAtual = hoje.getHours();
+      var eDepoisDasVinteHoras = horaAtual >= 20;
 
-      if (!isAfterTwentyHours) {
-        today.setDate(today.getDate() - 1); // Reduz um dia se for antes das 20 horas
+      // Verifica se é depois das 20:00; se não, volta para ontem
+      if (!eDepoisDasVinteHoras) {
+        hoje.setDate(hoje.getDate() - 1);
       }
+
+      // Define a hora como 20:00 para hoje
+      hoje.setHours(20, 0, 0, 0);
 
       for (var i = 0; i < 15; i++) {
-        var date = new Date();
-        date.setDate(today.getDate() - i);
-        var formattedDate = date.toISOString().split('T')[0];
-        var downloadLink = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + formattedDate + '.apk';
-        linksHTML += '<a href="' + downloadLink + '" download="AuroraStore-nightly-signed-' + formattedDate + '.apk">Baixar do dia ' + formattedDate + '</a>';
+        var data = new Date(hoje);
+        data.setDate(hoje.getDate() - i);
+        var dataFormatada = data.toISOString().split('T')[0];
+        var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataFormatada + '.apk';
+        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk">Baixar do dia ' + dataFormatada + '</a>';
       }
 
-      linksDiv.innerHTML = linksHTML;
+      divLinks.innerHTML = htmlLinks;
     };
   </script>
 
