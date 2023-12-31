@@ -57,7 +57,7 @@
         data.setDate(hoje.getDate() - i);
         var dataFormatada = data.toISOString().split('T')[0];
         var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataFormatada + '.apk';
-        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk" onerror="mostrarErro(this)">Baixar do dia ' + dataFormatada + '</a>';
+        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Baixar do dia ' + dataFormatada + '</a>';
       }
 
       divLinks.innerHTML = htmlLinks;
@@ -69,7 +69,16 @@
       link.removeAttribute('href');
       link.removeAttribute('download');
     }
+
+    function verificarRedirecionamento(link) {
+      var timeout = setTimeout(function () {
+        clearTimeout(timeout);
+        if (window.location.href === 'https://auroraoss.com/') {
+          mostrarErro(link);
+        }
+      }, 1000);
+    }
   </script>
 
 </body>
-      </html>
+  </html>
