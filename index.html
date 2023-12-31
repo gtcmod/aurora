@@ -57,12 +57,19 @@
         data.setDate(hoje.getDate() - i);
         var dataFormatada = data.toISOString().split('T')[0];
         var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataFormatada + '.apk';
-        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk">Baixar do dia ' + dataFormatada + '</a>';
+        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk" onerror="mostrarErro(this)">Baixar do dia ' + dataFormatada + '</a>';
       }
 
       divLinks.innerHTML = htmlLinks;
     };
+
+    function mostrarErro(link) {
+      link.style.color = 'red';
+      link.textContent = 'Erro: A build não está disponível.';
+      link.removeAttribute('href');
+      link.removeAttribute('download');
+    }
   </script>
 
 </body>
-</html>
+      </html>
