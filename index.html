@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurora Store Nightly Builds</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -12,19 +13,63 @@
       height: 100vh;
       margin: 0;
       font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
     }
+
     .container {
       text-align: center;
       padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       font-size: 2em;
       margin-bottom: 20px;
+      color: #333;
     }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    td a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease-in-out;
+    }
+
+    td a:hover {
+      color: #2077b0;
+    }
+
     a {
-      margin-bottom: 10px;
       display: block;
       font-size: 1.2em;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+    }
+
+    a:hover {
+      color: #555;
     }
   </style>
 </head>
@@ -32,36 +77,45 @@
 
   <div class="container">
     <h1>Baixar Aurora Store Nightly Builds</h1>
-    <div id="links"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Aurora Store</th>
+          <th>Data do Arquivo</th>
+        </tr>
+      </thead>
+      <tbody id="links"></tbody>
+    </table>
   </div>
 
   <script>
     window.onload = function () {
+      updateLinks();
+      setInterval(updateLinks, 1000 * 60 * 60 * 20); // Update links every 20 hours
+    };
+
+    function updateLinks() {
       var hoje = new Date();
-      var divLinks = document.getElementById('links');
-      var htmlLinks = '';
+      var tableBody = document.getElementById('links');
+      var htmlRows = '';
 
-      var horaAtual = hoje.getHours();
-      var eDepoisDasVinteHoras = horaAtual >= 20;
-
-      // Verifica se é depois das 20:00; se não, volta para ontem
-      if (!eDepoisDasVinteHoras) {
-        hoje.setDate(hoje.getDate() - 1);
-      }
-
-      // Define a hora como 20:00 para hoje
-      hoje.setHours(20, 0, 0, 0);
-
-      for (var i = 0; i < 12; i++) {
+      for (var i = 0; i < 5; i++) {
         var data = new Date(hoje);
         data.setDate(hoje.getDate() - i);
-        var dataFormatada = data.toISOString().split('T')[0];
-        var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataFormatada + '.apk';
-        htmlLinks += '<a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + dataFormatada + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Baixar do dia ' + dataFormatada + '</a>';
+        var dataFormatada = formatDate(data); // Format date as dd-mm-yyyy
+        var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + data.toISOString().split('T')[0] + '.apk';
+        htmlRows += '<tr><td><a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + data.toISOString().split('T')[0] + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' + dataFormatada + '</td></tr>';
       }
 
-      divLinks.innerHTML = htmlLinks;
-    };
+      tableBody.innerHTML = htmlRows;
+    }
+
+    function formatDate(date) {
+      var dd = String(date.getDate()).padStart(2, '0');
+      var mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var yyyy = date.getFullYear();
+      return dd + '-' + mm + '-' + yyyy;
+    }
 
     function mostrarErro(link) {
       link.style.color = 'red';
@@ -81,4 +135,4 @@
   </script>
 
 </body>
-  </html>
+</html>
