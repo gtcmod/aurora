@@ -93,13 +93,12 @@
   <script>
     window.onload = function () {
       updateLinks();
-      // Agendar atualização para amanhã às 7:50 da manhã
+      // Agendar atualização para amanhã às 8:00 da manhã
       var tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(7, 50, 0, 0);
+      tomorrow.setHours(20, 0, 0, 0);
       var timeUntilNextUpdate = tomorrow - new Date();
       setTimeout(function () {
-        updateLinks(); // Atualizar links imediatamente ao carregar a página
         setInterval(updateLinks, 1000 * 60 * 60 * 24); // Atualizar links diariamente
       }, timeUntilNextUpdate);
     };
@@ -109,10 +108,18 @@
       var tableBody = document.getElementById('links');
       var htmlRows = '';
 
-      for (var i = 0; i < 5; i++) {
+      // Adicionar primeiro link para o dia seguinte
+      var dataAmanha = new Date(hoje);
+      dataAmanha.setDate(hoje.getDate() + 1);
+      var dataAmanhaFormatada = formatDate(dataAmanha);
+      var linkAmanha = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk';
+      htmlRows += '<tr><td><a href="' + linkAmanha + '" download="AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' + dataAmanhaFormatada + '</td></tr>';
+
+      // Adicionar os links para os dias anteriores
+      for (var i = 0; i < 4; i++) {
         var data = new Date(hoje);
         data.setDate(hoje.getDate() - i);
-        var dataFormatada = formatDate(data); // Format date as dd-mm-yyyy
+        var dataFormatada = formatDate(data);
         var linkDownload = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + data.toISOString().split('T')[0] + '.apk';
         htmlRows += '<tr><td><a href="' + linkDownload + '" download="AuroraStore-nightly-signed-' + data.toISOString().split('T')[0] + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' + dataFormatada + '</td></tr>';
       }
@@ -122,7 +129,7 @@
 
     function formatDate(date) {
       var dd = String(date.getDate()).padStart(2, '0');
-      var mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var mm = String(date.getMonth() + 1).padStart(2, '0');
       var yyyy = date.getFullYear();
       return dd + '-' + mm + '-' + yyyy;
     }
