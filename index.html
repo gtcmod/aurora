@@ -93,7 +93,7 @@
   <script>
     window.onload = function () {
       updateLinks();
-      // Agendar atualização para amanhã às 8:00 da manhã
+      // Agendar atualização para amanhã às 20:00
       var tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       tomorrow.setHours(20, 0, 0, 0);
@@ -108,12 +108,14 @@
       var tableBody = document.getElementById('links');
       var htmlRows = '';
 
-      // Adicionar primeiro link para o dia seguinte
-      var dataAmanha = new Date(hoje);
-      dataAmanha.setDate(hoje.getDate() + 1);
-      var dataAmanhaFormatada = formatDate(dataAmanha);
-      var linkAmanha = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk';
-      htmlRows += '<tr><td><a href="' + linkAmanha + '" download="AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' + dataAmanhaFormatada + '</td></tr>';
+      // Adicionar primeiro link para o dia seguinte a partir das 20:00
+      if (hoje.getHours() >= 20) {
+        var dataAmanha = new Date(hoje);
+        dataAmanha.setDate(hoje.getDate() + 1);
+        var dataAmanhaFormatada = formatDate(dataAmanha);
+        var linkAmanha = 'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk';
+        htmlRows += '<tr><td><a href="' + linkAmanha + '" download="AuroraStore-nightly-signed-' + dataAmanha.toISOString().split('T')[0] + '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' + dataAmanhaFormatada + '</td></tr>';
+      }
 
       // Adicionar os links para os dias anteriores
       for (var i = 0; i < 4; i++) {
