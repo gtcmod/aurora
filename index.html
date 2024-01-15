@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,6 +74,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -91,7 +93,15 @@
   <script>
     window.onload = function () {
       updateLinks();
-      setInterval(updateLinks, 1000 * 60 * 60 * 20); // Update links every 20 hours
+      // Agendar atualização para amanhã às 7:50 da manhã
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(7, 50, 0, 0);
+      var timeUntilNextUpdate = tomorrow - new Date();
+      setTimeout(function () {
+        updateLinks(); // Atualizar links imediatamente ao carregar a página
+        setInterval(updateLinks, 1000 * 60 * 60 * 24); // Atualizar links diariamente
+      }, timeUntilNextUpdate);
     };
 
     function updateLinks() {
@@ -135,4 +145,5 @@
   </script>
 
 </body>
+
 </html>
