@@ -73,10 +73,16 @@
             tomorrow.setDate(date.getDate() + 1);
             tomorrow.setHours(20, 0, 0, 0);
 
-            var linkDate = tomorrow <= new Date() ? date : tomorrow;
+            var linkDate = tomorrow <= new Date() ? tomorrow : date;
+            var formattedLinkDate = formatDate(linkDate, true);
+            var formattedDisplayDate = formatDate(date);
+
             var link = "https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-" +
-                       formatDate(linkDate, true) + ".apk";
-            cell.innerHTML = '<a href="' + link + '" target="_blank">Download ' + formatDate(date) + '</a>';
+                       formattedLinkDate + ".apk";
+            
+            var linkText = "Download " + formattedDisplayDate + " às 20hrs";
+            
+            cell.innerHTML = '<a href="' + link + '" target="_blank">' + linkText + '</a>';
         }
     </script>
     <title>Aurora Store Daily Builds</title>
