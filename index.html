@@ -1,180 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aurora Store Nightly Builds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        a {
+            text-decoration: none;
+            color: #0366d6; /* Cor azul semelhante ao link padrão do GitHub */
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Data de hoje
+            var today = new Date();
 
-    .container {
-      text-align: center;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+            // Criação da tabela
+            var table = document.createElement("table");
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-      color: #333;
-    }
+            // Adiciona dados à tabela
+            for (var i = 0; i < 7; i++) {
+                var row = table.insertRow(i);
+                var date = new Date(today);
+                date.setDate(today.getDate() - i);
+                var formattedDate = formatDate(date);
 
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    }
+                var cell = row.insertCell(0);
+                generateLink(date, cell);
+            }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
+            // Adiciona a tabela ao corpo do documento
+            document.body.appendChild(table);
+        });
 
-    th {
-      background-color: #3498db;
-      color: white;
-    }
+        // Função para formatar a data como dd-mm-yyyy ou yyyy-mm-dd (se invertido for verdadeiro)
+        function formatDate(date, invertido) {
+            var dd = String(date.getDate()).padStart(2, '0');
+            var mm = String(date.getMonth() + 1).padStart(2, '0');
+            var yyyy = date.getFullYear();
+            return invertido ? yyyy + '-' + mm + '-' + dd : dd + '-' + mm + '-' + yyyy;
+        }
 
-    td a {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease-in-out;
-    }
+        // Função para gerar o link
+        function generateLink(date, cell) {
+            var tomorrow = new Date(date);
+            tomorrow.setDate(date.getDate() + 1);
+            tomorrow.setHours(20, 0, 0, 0);
 
-    td a:hover {
-      color: #2077b0;
-    }
-
-    a {
-      display: block;
-      font-size: 1.2em;
-      color: #333;
-      text-decoration: none;
-      transition: color 0.3s ease-in-out;
-    }
-
-    a:hover {
-      color: #555;
-    }
-  </style>
+            var linkDate = tomorrow <= new Date() ? date : tomorrow;
+            var link = "https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-" +
+                       formatDate(linkDate, true) + ".apk";
+            cell.innerHTML = '<a href="' + link + '" target="_blank">Download ' + formatDate(date) + '</a>';
+        }
+    </script>
+    <title>Aurora Store Daily Builds</title>
 </head>
-
 <body>
-
-  <div class="container">
-    <h1>Baixar Aurora Store Nightly Builds</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Aurora Store</th>
-          <th>Data do Arquivo</th>
-        </tr>
-      </thead>
-      <tbody id="links"></tbody>
-    </table>
-  </div>
-
-  <script>
-    window.onload = function () {
-  updateLinks();
-  // Agendar atualização para amanhã às 20:00
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(20, 0, 0, 0);
-  var timeUntilNextUpdate = tomorrow - new Date();
-  setTimeout(function () {
-    setInterval(updateLinks, 1000 * 60 * 60 * 24); // Atualizar links diariamente
-  }, timeUntilNextUpdate);
-};
-
-function updateLinks() {
-  var hoje = new Date();
-  var tableBody = document.getElementById('links');
-  var htmlRows = '';
-
-  // Adicionar link para o dia atual às 20:00
-  var dataHoje = new Date(hoje);
-  dataHoje.setHours(20, 0, 0, 0);
-
-  var dataHojeFormatada = formatDate(dataHoje);
-  var linkHoje =
-    'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' +
-    hoje.toISOString().split('T')[0] +
-    '.apk';
-  htmlRows +=
-    '<tr><td><a href="' +
-    linkHoje +
-    '" download="AuroraStore-nightly-signed-' +
-    hoje.toISOString().split('T')[0] +
-    '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' +
-    dataHojeFormatada +
-    '</td></tr>';
-
-  // Adicionar links para os cinco dias anteriores (sem adiantamento)
-  for (var i = 1; i <= 5; i++) {
-    var data = new Date(hoje);
-    data.setDate(hoje.getDate() - i);
-    data.setHours(20, 0, 0, 0);
-
-    var dataFormatada = formatDate(data);
-    var linkDownload =
-      'https://auroraoss.com/AuroraStore/Nightly/AuroraStore-nightly-signed-' +
-      data.toISOString().split('T')[0] +
-      '.apk';
-    htmlRows +=
-      '<tr><td><a href="' +
-      linkDownload +
-      '" download="AuroraStore-nightly-signed-' +
-      data.toISOString().split('T')[0] +
-      '.apk" onerror="mostrarErro(this)" onclick="verificarRedirecionamento(this)">Aurora Store</a></td><td>' +
-      dataFormatada +
-      '</td></tr>';
-  }
-
-  tableBody.innerHTML = htmlRows;
-}
-
-function formatDate(date) {
-  var dd = String(date.getDate()).padStart(2, '0');
-  var mm = String(date.getMonth() + 1).padStart(2, '0');
-  var yyyy = date.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
-}
-
-function mostrarErro(link) {
-  link.style.color = 'red';
-  link.textContent = 'Erro: A build não está disponível.';
-  link.removeAttribute('href');
-  link.removeAttribute('download');
-}
-
-function verificarRedirecionamento(link) {
-  var timeout = setTimeout(function () {
-    clearTimeout(timeout);
-    if (window.location.href === 'https://auroraoss.com/') {
-      mostrarErro(link);
-    }
-  }, 1000);
-}
-
-  </script>
-
+    <h1>Aurora Store Daily Builds</h1>
 </body>
-
 </html>
